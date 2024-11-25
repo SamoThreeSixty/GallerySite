@@ -5,24 +5,6 @@
 
 	header('Content-Type: application/json; charset=UTF-8');
 
-	$conn = new mysqli($sql_host, $sql_username, $sql_password, $sql_database, port: $sql_port);
-
-    if (mysqli_connect_errno()) {
-		
-		$output['status']['code'] = "300";
-		$output['status']['name'] = "failure";
-		$output['status']['description'] = "database unavailable";
-		$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-		$output['data'] = [];
-
-		mysqli_close($conn);
-
-		echo json_encode($output);
-
-		exit;
-
-	}
-
     $query = 'SELECT Id, Staff_Id, Staff_Name FROM Staff ORDER BY Position';
 
 	$result = $conn->query($query);
