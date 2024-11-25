@@ -1,40 +1,40 @@
 <?php
-	$executionStartTime = microtime(true);
+$executionStartTime = microtime(true);
 
-	include("config.php");
+include("config.php");
 
-	header('Content-Type: application/json; charset=UTF-8');
+header('Content-Type: application/json; charset=UTF-8');
 
-    // Save file to the images
-    $fileTmpPath = $_FILES['Image_Filename']['tmp_name'];
-    $fileName = $_FILES['Image_Filename']['name'];
+// Save file to the images
+$fileTmpPath = $_FILES['Image_Filename']['tmp_name'];
+$fileName = $_FILES['Image_Filename']['name'];
 
-    // Set the target directory for uploaded files
-    $uploadDir = 'img/staff/';
+// Set the target directory for uploaded files
+$uploadDir = 'media/staff/';
 
-    // Generate a unique file name to avoid overwriting
-    $newFileName = uniqid() . '-' . basename($fileName);
-    $uploadPath = '../../' . $uploadDir . $newFileName;
-    $basePath =  $uploadDir . $newFileName;
+// Generate a unique file name to avoid overwriting
+$newFileName = uniqid() . '-' . basename($fileName);
+$uploadPath = '../../' . $uploadDir . $newFileName;
+$basePath = $uploadDir . $newFileName;
 
-    if (move_uploaded_file($fileTmpPath, $uploadPath)) {
-        // Store the file URL in the database
-        $fileUrl = $uploadPath;  // Save the relative path to the database
-    }
+if (move_uploaded_file($fileTmpPath, $uploadPath)) {
+    // Store the file URL in the database
+    $fileUrl = $uploadPath;  // Save the relative path to the database
+}
 
-    $highestPosition = $conn->prepare('SELECT COALESCE(MAX(Position), 0) AS Position FROM Staff');
+$highestPosition = $conn->prepare('SELECT COALESCE(MAX(Position), 0) AS Position FROM Staff');
 
-    $highestPosition->execute();
+$highestPosition->execute();
 
-    $highestPositionResult = $highestPosition->get_result();
+$highestPositionResult = $highestPosition->get_result();
 
-    $row = $highestPositionResult->fetch_assoc();
+$row = $highestPositionResult->fetch_assoc();
 
-    $nextPosition = $row['Position'] + 1;
+$nextPosition = $row['Position'] + 1;
 
-    $date = date("Y-m-d h:m:s");
+$date = date("Y-m-d h:m:s");
 
-    $query = $conn->prepare('INSERT INTO 
+$query = $conn->prepare('INSERT INTO 
                                             Staff (
                                                 Staff_Name, 
                                                 Image_Filename, 
@@ -49,32 +49,32 @@
                                             VALUES 
                                                 (?, ?, ?, ?);');
 
-    $query->bind_param('ssss', $_POST['Staff_Name'],  $basePath, $nextPosition, $date);
+$query->bind_param('ssss', $_POST['Staff_Name'], $basePath, $nextPosition, $date);
 
-    $query->execute();
+$query->execute();
 
-    if ($query === false) {
+if ($query === false) {
 
-		$output['status']['code'] = "400";
-		$output['status']['name'] = "executed";
-		$output['status']['description'] = "query failed";	
-		$output['data'] = [];
+    $output['status']['code'] = "400";
+    $output['status']['name'] = "executed";
+    $output['status']['description'] = "query failed";
+    $output['data'] = [];
 
-		mysqli_close($conn);
+    mysqli_close($conn);
 
-		echo json_encode($output); 
+    echo json_encode($output);
 
-		exit;
+    exit;
 
-	}
+}
 
-    $output['status']['code'] = "200";
-	$output['status']['name'] = "ok";
-	$output['status']['description'] = "success";
-	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] =  null;
-	
-	mysqli_close($conn);
+$output['status']['code'] = "200";
+$output['status']['name'] = "ok";
+$output['status']['description'] = "success";
+$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+$output['data'] = null;
 
-	echo json_encode($output); 
+mysqli_close($conn);
+
+echo json_encode($output);
 ?>

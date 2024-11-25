@@ -58,10 +58,10 @@ function loadStaffImageList() {
           `<li class="list-group-item">
             ${staff.Staff_Name}
             <span class="pull-right">
-              <a value="${staff.Id}" id="MoveUp"><img alt="Move up" class="icon" src="img/up.svg"></a>
-              <a value="${staff.Id}" id="MoveDown"><img alt="Close" class="icon" src="img/down.svg"></a>
-              <a value="${staff.Id}" id="Update"><img alt="Edit staff member" class="icon" src="img/edit.svg"></a>
-              <a value="${staff.Id}" id="Delete"><img alt="Remove staff member" class="icon" src="img/close.svg"></a>
+              <a value="${staff.Id}" id="MoveUp"><img alt="Move up" class="icon" src="media/icons/up.svg"></a>
+              <a value="${staff.Id}" id="MoveDown"><img alt="Close" class="icon" src="media/icons/down.svg"></a>
+              <a value="${staff.Id}" id="Update"><img alt="Edit staff member" class="icon" src="media/icons/edit.svg"></a>
+              <a value="${staff.Id}" id="Delete"><img alt="Remove staff member" class="icon" src="media/icons/close.svg"></a>
             </span>
           </li>`
         );

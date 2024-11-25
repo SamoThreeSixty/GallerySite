@@ -12,9 +12,9 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <div class="profiles row"> <img alt="A&amp;P" class="logo" src="img/ap.svg">
+        <div class="profiles row"> <img alt="A&amp;P" class="logo" src="media/logo/ap.svg">
           <h1 class="text-center">The staff gallery</h1>
-          <div id="GalleryImages" class="profiles row"> <img alt="A&amp;P" class="logo" src="img/ap.svg">
+          <div id="GalleryImages" class="profiles row"> <img alt="A&amp;P" class="logo" src="media/logo/ap.svg">
           </div>
         </div>
         <div class="col-lg-12"> <a href="admin.php" class="btn btn-default pull-right">Edit/Add staff</a> </div>

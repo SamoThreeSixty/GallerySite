@@ -11,7 +11,7 @@
 <body>
   <div class="container">
     <div class="row">
-      <div class="col-lg-12"> <img alt="A&amp;P" class="logo" src="img/ap.svg">
+      <div class="col-lg-12"> <img alt="A&amp;P" class="logo" src="media/logo/ap.svg">
         <label>Add a new image</label>
         <div class="well">
           <form id="UploadImageForm">
