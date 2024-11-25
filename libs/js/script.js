@@ -42,7 +42,44 @@ $(document).ready(function () {
     // Delete the image making sure the value is converted to an int
     deleteStaffImage(parseInt(id));
   });
+
+  $(document).on("click", "#MoveUp", function (e) {
+    e.preventDefault();
+
+    id = $(this).attr("value");
+
+    moveStaffImage("MoveUp", id);
+  });
+
+  $(document).on("click", "#MoveDown", function (e) {
+    e.preventDefault();
+
+    id = $(this).attr("value");
+
+    moveStaffImage("MoveDown", id);
+  });
 });
+
+function moveStaffImage(action, Id) {
+  const formData = new FormData();
+
+  formData.append("action", action);
+  formData.append("Id", Id);
+
+  $.ajax({
+    url: "./libs/php/moveStaffImage.php", // Backend PHP file
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      loadStaffImageList();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error(errorThrown);
+    },
+  });
+}
 
 function loadStaffImageList() {
   // Clear the existing list
