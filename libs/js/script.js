@@ -28,6 +28,16 @@ $(document).ready(function () {
       },
     });
   });
+
+  $(document).on("click", "#Delete", function (e) {
+    e.preventDefault();
+
+    // Get the value Id of the record stored as the value
+    const id = $(this).attr("value");
+
+    // Delete the image making sure the value is converted to an int
+    deleteStaffImage(parseInt(id));
+  });
 });
 
 function loadStaffImageList() {
@@ -53,6 +63,36 @@ function loadStaffImageList() {
           </li>`
         );
       });
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error(errorThrown);
+    },
+  });
+}
+
+function deleteStaffImage(id) {
+  // Check that it is an int
+  if (typeof id != "number") {
+    throw Error("Id should be a number");
+  }
+
+  // Check that it is above 0
+  if (id <= 0) {
+    throw Error("This is not a valid id");
+  }
+
+  // POST
+  // Set the flag of a record to deleted
+  $.ajax({
+    url: "./libs/php/deleteStaffImage.php",
+    type: "POST",
+    data: {
+      Id: id,
+    },
+    success: function (e) {
+      // Refresh the list when the record has been deleted
+      // to show that it is removed
+      loadStaffImageList();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.error(errorThrown);
