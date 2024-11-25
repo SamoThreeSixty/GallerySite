@@ -49,7 +49,6 @@ function loadStaffImageList() {
     url: "./libs/php/getAllStaffImages.php", // Backend PHP file
     type: "GET",
     success: function (response) {
-      console.log(response);
       response.data.forEach((staff) => {
         $("#StaffImagesList").append(
           `<li class="list-group-item">

@@ -5,6 +5,23 @@
 
 	header('Content-Type: application/json; charset=UTF-8');
 
+    // Save file to the images
+    $fileTmpPath = $_FILES['Image_Filename']['tmp_name'];
+    $fileName = $_FILES['Image_Filename']['name'];
+
+    // Set the target directory for uploaded files
+    $uploadDir = 'img/staff/';
+
+    // Generate a unique file name to avoid overwriting
+    $newFileName = uniqid() . '-' . basename($fileName);
+    $uploadPath = '../../' . $uploadDir . $newFileName;
+    $basePath =  $uploadDir . $newFileName;
+
+    if (move_uploaded_file($fileTmpPath, $uploadPath)) {
+        // Store the file URL in the database
+        $fileUrl = $uploadPath;  // Save the relative path to the database
+    }
+
     $highestPosition = $conn->prepare('SELECT COALESCE(MAX(Position), 0) AS Position FROM Staff');
 
     $highestPosition->execute();
@@ -14,8 +31,6 @@
     $row = $highestPositionResult->fetch_assoc();
 
     $nextPosition = $row['Position'] + 1;
-
-    $imageName = $_FILES['Image_Filename']['name'];
 
     $date = date("Y-m-d h:m:s");
 
@@ -34,7 +49,7 @@
                                             VALUES 
                                                 (?, ?, ?, ?);');
 
-    $query->bind_param('ssss', $_POST['Staff_Name'],  $imageName, $nextPosition, $date);
+    $query->bind_param('ssss', $_POST['Staff_Name'],  $basePath, $nextPosition, $date);
 
     $query->execute();
 
