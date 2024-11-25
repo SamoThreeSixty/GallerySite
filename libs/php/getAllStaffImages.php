@@ -5,7 +5,7 @@
 
 	header('Content-Type: application/json; charset=UTF-8');
 
-    $query = 'SELECT Id, Staff_Id, Staff_Name FROM Staff ORDER BY Position';
+    $query = 'SELECT Id, Staff_Id, Staff_Name FROM Staff WHERE Live_Flag = "Y" AND Deleted_Flag = "N" ORDER BY Position';
 
 	$result = $conn->query($query);
 	
