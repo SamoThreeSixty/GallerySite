@@ -12,18 +12,19 @@
     <div class="col-lg-12"> <img alt="A&amp;P" class="logo" src="img/ap.svg">
       <label>Add a new image</label>
       <div class="well">
-        <form action="/action_page.php">
+        <form action="./libs/php/insertStaffImage.php" method="POST" enctype="multipart/form-data">
           <div class="form-group">
             <label>Upload your image</label>
-            <div class="input-group"> <span class="input-group-btn"><span class="btn btn-default btn-file">Browse…
-              <input id="imgInp" type="file">
-              </span></span>
+            <div class="input-group">
+              <span class="input-group-btn">
+                <span class="btn btn-default btn-file">Browse…<input id="ImageFilename" name="Image_Filename" type="file" required></span>
+              </span>
               <input class="form-control" type="text">
             </div>
           </div>
           <div class="form-group">
-            <label for="email">Staff name:</label>
-            <input class="form-control" id="email" type="email">
+            <label for="StaffName">Staff name:</label>
+            <input class="form-control" id="StaffName" name="Staff_Name" type="text" required>
           </div>
           <button class="btn btn-default" type="submit">Upload</button>
         </form>
