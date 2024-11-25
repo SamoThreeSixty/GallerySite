@@ -12,7 +12,7 @@
     <div class="col-lg-12"> <img alt="A&amp;P" class="logo" src="img/ap.svg">
       <label>Add a new image</label>
       <div class="well">
-        <form action="./libs/php/insertStaffImage.php" method="POST" enctype="multipart/form-data">
+        <form id="UploadImageForm">
           <div class="form-group">
             <label>Upload your image</label>
             <div class="input-group">
@@ -48,5 +48,6 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> 
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="./libs/js/script.js"></script>
 </body>
 </html>
