@@ -80,3 +80,11 @@ h1 {
 #img-upload {
   width: 100%;
 }
+
+#StaffImagesList > li:first-child span a#MoveUp {
+  display: none;
+}
+
+#StaffImagesList > li:last-child span a#MoveDown {
+  display: none;
+}
