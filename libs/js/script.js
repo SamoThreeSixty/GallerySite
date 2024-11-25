@@ -3,8 +3,12 @@
 
 // Used to make sure that the everything on the page is loaded
 $(document).ready(function () {
-  // Initially load all of the images in the list.
+  // Initial load based on which page you are on.
+  // If on Admin
   loadStaffImageList();
+
+  // If on Gallery
+  loadGalleryImages();
 
   $("#UploadImageForm").on("submit", function (e) {
     e.preventDefault();
@@ -60,6 +64,33 @@ function loadStaffImageList() {
               <a value="${staff.Id}" id="Delete"><img alt="Remove staff member" class="icon" src="img/close.svg"></a>
             </span>
           </li>`
+        );
+      });
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error(errorThrown);
+    },
+  });
+}
+
+function loadGalleryImages() {
+  // Clear the existing list
+  $("#GalleryImages").empty();
+
+  // Load the list from the database
+  $.ajax({
+    url: "./libs/php/getAllStaffImages.php", // Backend PHP file
+    type: "GET",
+    success: function (response) {
+      response.data.forEach((staff) => {
+        $("#GalleryImages").append(
+          `
+          <div class="col-md-3 col-sm-4 col-xs-6">
+            <div class="profile"> <img alt="Profile image of ${staff.Staff_Name}" class="img-responsive" src="${staff.Image_FileName}">
+              <h5>${staff.Staff_Name}</h5>
+            </div>
+          </div>          
+        `
         );
       });
     },
