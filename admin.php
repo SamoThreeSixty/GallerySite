@@ -32,16 +32,7 @@
     </div>
     <div class="col-lg-12">
       <label>Edit/Re-order existing staff</label>
-      <ul class="list-group">
-        <li class="list-group-item">Francesca Hall <span class="pull-right"><a href="/"><img alt="Move up" class="icon" src="img/up.svg"></a><a href="/"><img alt="Move down" class="icon" src="img/down.svg"></a><a href="/"><img alt="Edit staff member" class="icon" src="img/edit.svg"></a><a href="/"><img alt="Remove staff member" class="icon" src="img/close.svg"></a></span></li>
-        <li class="list-group-item">Alison Blackledge<span class="pull-right"><a href="/"><img alt="Move up" class="icon" src="img/up.svg"></a><a href="/"><img alt="Move down" class="icon" src="img/down.svg"></a><a href="/"><img alt="Edit staff member" class="icon" src="img/edit.svg"></a><a href="/"><img alt="Remove staff member" class="icon" src="img/close.svg"></a></span></li>
-        <li class="list-group-item">Andy Taylor<span class="pull-right"><a href="/"><img alt="Move up" class="icon" src="img/up.svg"></a><a href="/"><img alt="Move down" class="icon" src="img/down.svg"></a><a href="/"><img alt="Edit staff member" class="icon" src="img/edit.svg"></a><a href="/"><img alt="Remove staff member" class="icon" src="img/close.svg"></a></span></li>
-        <li class="list-group-item">David Daglish<span class="pull-right"><a href="/"><img alt="Move up" class="icon" src="img/up.svg"></a><a href="/"><img alt="Close" class="icon" src="img/down.svg"></a><a href="/"><img alt="Edit staff member" class="icon" src="img/edit.svg"></a><a href="/"><img alt="Remove staff member" class="icon" src="img/close.svg"></a></span></li>
-        <li class="list-group-item">Michael Kane<span class="pull-right"><a href="/"><img alt="Move up" class="icon" src="img/up.svg"></a><a href="/"><img alt="Close" class="icon" src="img/down.svg"></a><a href="/"><img alt="Edit staff member" class="icon" src="img/edit.svg"></a><a href="/"><img alt="Remove staff member" class="icon" src="img/close.svg"></a></span></li>
-        <li class="list-group-item">Mike Bailey<span class="pull-right"><a href="/"><img alt="Move up" class="icon" src="img/up.svg"></a><a href="/"><img alt="Close" class="icon" src="img/down.svg"></a><a href="/"><img alt="Edit staff member" class="icon" src="img/edit.svg"></a><a href="/"><img alt="Remove staff member" class="icon" src="img/close.svg"></a></span></li>
-        <li class="list-group-item">Kulbinder Singh<span class="pull-right"><a href="/"><img alt="Move up" class="icon" src="img/up.svg"></a><a href="/"><img alt="Close" class="icon" src="img/down.svg"></a><a href="/"><img alt="Edit staff member" class="icon" src="img/edit.svg"></a><a href="/"><img alt="Remove staff member" class="icon" src="img/close.svg"></a></span></li>
-        <li class="list-group-item">John Hyland<span class="pull-right"><a href="/"><img alt="Move up" class="icon" src="img/up.svg"></a><a href="/"><img alt="Close" class="icon" src="img/down.svg"></a><a href="/"><img alt="Edit staff member" class="icon" src="img/edit.svg"></a><a href="/"><img alt="Remove staff member" class="icon" src="img/close.svg"></a></span></li>
-      </ul>
+      <ul id="StaffImagesList" class="list-group"></ul>
     </div>
     <div class="col-lg-12"> <a href="gallery.php" class="btn btn-default pull-right">View Gallery</a> </div>
   </div>
