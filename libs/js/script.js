@@ -76,7 +76,7 @@ $(document).ready(function () {
     }
 
     // Get the value Id of the record stored as the value
-    id = $(this).attr("id").split("_")[1];
+    const id = $(this).attr("id").split("_")[1];
 
     // Delete the image making sure the value is converted to an int
     deleteStaffImage(parseInt(id));
