@@ -22,7 +22,7 @@
                   <span class="btn btn-default btn-file">Browse…<input id="ImageFilename" name="Image_Filename"
                       type="file" required></span>
                 </span>
-                <input class="form-control" type="text">
+                <input id="SelectedImageFileName" class="form-control" type="text" readonly>
               </div>
             </div>
             <div class="form-group">

@@ -45,6 +45,19 @@ $(document).ready(function () {
     });
   });
 
+  $(document).on("change", "#ImageFilename", function (e) {
+    const input = e.target;
+
+    if (input.files && input.files.length > 0) {
+      const fileName = input.files[0].name;
+
+      $(`#SelectedImageFileName`).val(fileName);
+      $(`#SelectedImageFileName`).text(fileName);
+    } else {
+      console.log("No file selected.");
+    }
+  });
+
   $(document).on("click", ".Delete", function (e) {
     e.preventDefault();
 
