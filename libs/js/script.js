@@ -1,3 +1,5 @@
+import { staffImagesTemplate, staffGalleryImage } from "./template.js";
+
 // Here I will add listeners for the various forms making sure
 // the request is handled properly through AJAX JQuery
 
@@ -91,18 +93,7 @@ function loadStaffImageList() {
     type: "GET",
     success: function (response) {
       response.data.forEach((staff) => {
-        $("#StaffImagesList").append(
-          `<li class="list-group-item d-flex justify-content-between">
-            <input id="${staff.Id}" value="${staff.Staff_Name}" readonly></input>
-
-            <span class="pull-right">
-            <a class="MoveUp" id="MoveUp_${staff.Id}"><img alt="Move up" class="icon" src="media/icons/up.svg"></a>
-            <a class="MoveDown" id="MoveDown_ ${staff.Id}"><img alt="Close" class="icon" src="media/icons/down.svg"></a>
-            <a class="Update" id="Update_${staff.Id}"><img alt="Edit staff member" class="icon" src="media/icons/edit.svg"></a>
-            <a class="Delete" id="Delete_${staff.Id}"><img alt="Remove staff member" class="icon" src="media/icons/close.svg"></a>
-            </span>
-          </li>`
-        );
+        $("#StaffImagesList").append(staffImagesTemplate(staff));
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -121,15 +112,7 @@ function loadGalleryImages() {
     type: "GET",
     success: function (response) {
       response.data.forEach((staff) => {
-        $("#GalleryImages").append(
-          `
-          <div class="col-md-3 col-sm-4 col-xs-6">
-            <div class="profile"> <img alt="Profile image of ${staff.Staff_Name}" class="img-responsive" src="${staff.Image_FileName}">
-              <h5>${staff.Staff_Name}</h5>
-            </div>
-          </div>          
-        `
-        );
+        $("#GalleryImages").append(staffGalleryImage(staff));
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
