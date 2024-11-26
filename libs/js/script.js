@@ -66,6 +66,12 @@ $(document).ready(function () {
   });
 
   $(document).on("click", ".Update", function (e) {
+    // Check to see if a record is already being edited.
+    // If it is, the rest of the function will be executed.
+    if (isEditMode()) {
+      return;
+    }
+
     // Get the Id of the record
     const id = getStaffId(this);
 
@@ -87,6 +93,7 @@ $(document).ready(function () {
     $(`#Controls_${id}`).html(staffImagesControls(id, false));
 
     // Return the original data
+    removeEditMode();
     const originalValue = $(`#${id}`).data("original");
     $(`#${id}`).val(originalValue);
     $(`#${id}`).text(originalValue);
@@ -195,6 +202,29 @@ function getStaffId(element) {
   } else {
     throw Error("Value is not a number, it is a " + typeof id);
   }
+}
+
+function isEditMode() {
+  // Function to be used to prevent editing when a record is being edited.
+  // It will also have the function to be used to set the edit mode when you start editing.
+
+  const isEditing = $("#StaffImagesList").data("editMode");
+
+  switch (isEditing) {
+    case true:
+      return true;
+    default:
+      // The default, or if not set as true / false, will be to set the edit flag.
+      // This will be because the check was done prior to editing when nothing was
+      // being edited prior.
+
+      $("#StaffImagesList").data("editMode", true);
+      return false;
+  }
+}
+
+function removeEditMode() {
+  const isEditing = $("#StaffImagesList").data("editMode", false);
 }
 
 function editStaffName() {}
