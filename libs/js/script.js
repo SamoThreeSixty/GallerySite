@@ -19,6 +19,12 @@ $(document).ready(function () {
   $("#UploadImageForm").on("submit", function (e) {
     e.preventDefault();
 
+    // Check to see if a record is already being edited.
+    // If it is, the rest of the function will be executed.
+    if (isEditMode()) {
+      return;
+    }
+
     const formData = new FormData(this);
 
     // POST
@@ -42,6 +48,12 @@ $(document).ready(function () {
   $(document).on("click", ".Delete", function (e) {
     e.preventDefault();
 
+    // Check to see if a record is already being edited.
+    // If it is, the rest of the function will be executed.
+    if (isEditMode()) {
+      return;
+    }
+
     // Get the value Id of the record stored as the value
     id = $(this).attr("id").split("_")[1];
 
@@ -52,6 +64,12 @@ $(document).ready(function () {
   $(document).on("click", ".MoveUp", function (e) {
     e.preventDefault();
 
+    // Check to see if a record is already being edited.
+    // If it is, the rest of the function will be executed.
+    if (isEditMode()) {
+      return;
+    }
+
     const id = getStaffId(this);
 
     moveStaffImage("MoveUp", id);
@@ -59,6 +77,12 @@ $(document).ready(function () {
 
   $(document).on("click", ".MoveDown", function (e) {
     e.preventDefault();
+
+    // Check to see if a record is already being edited.
+    // If it is, the rest of the function will be executed.
+    if (isEditMode()) {
+      return;
+    }
 
     const id = getStaffId(this);
 
