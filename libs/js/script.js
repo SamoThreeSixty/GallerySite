@@ -33,17 +33,17 @@ $(document).ready(function () {
     });
   });
 
-  $(document).on("click", "#Delete", function (e) {
+  $(document).on("click", ".Delete", function (e) {
     e.preventDefault();
 
     // Get the value Id of the record stored as the value
-    const id = $(this).attr("value");
+    id = $(this).attr("id").split("_")[1];
 
     // Delete the image making sure the value is converted to an int
     deleteStaffImage(parseInt(id));
   });
 
-  $(document).on("click", "#MoveUp", function (e) {
+  $(document).on("click", ".MoveUp", function (e) {
     e.preventDefault();
 
     id = $(this).attr("value");
@@ -51,7 +51,7 @@ $(document).ready(function () {
     moveStaffImage("MoveUp", id);
   });
 
-  $(document).on("click", "#MoveDown", function (e) {
+  $(document).on("click", ".MoveDown", function (e) {
     e.preventDefault();
 
     id = $(this).attr("value");
@@ -92,13 +92,14 @@ function loadStaffImageList() {
     success: function (response) {
       response.data.forEach((staff) => {
         $("#StaffImagesList").append(
-          `<li class="list-group-item">
-            ${staff.Staff_Name}
+          `<li class="list-group-item d-flex justify-content-between">
+            <input id="${staff.Id}" value="${staff.Staff_Name}" readonly></input>
+
             <span class="pull-right">
-              <a value="${staff.Id}" id="MoveUp"><img alt="Move up" class="icon" src="media/icons/up.svg"></a>
-              <a value="${staff.Id}" id="MoveDown"><img alt="Close" class="icon" src="media/icons/down.svg"></a>
-              <a value="${staff.Id}" id="Update"><img alt="Edit staff member" class="icon" src="media/icons/edit.svg"></a>
-              <a value="${staff.Id}" id="Delete"><img alt="Remove staff member" class="icon" src="media/icons/close.svg"></a>
+            <a class="MoveUp" id="MoveUp_${staff.Id}"><img alt="Move up" class="icon" src="media/icons/up.svg"></a>
+            <a class="MoveDown" id="MoveDown_ ${staff.Id}"><img alt="Close" class="icon" src="media/icons/down.svg"></a>
+            <a class="Update" id="Update_${staff.Id}"><img alt="Edit staff member" class="icon" src="media/icons/edit.svg"></a>
+            <a class="Delete" id="Delete_${staff.Id}"><img alt="Remove staff member" class="icon" src="media/icons/close.svg"></a>
             </span>
           </li>`
         );
@@ -166,3 +167,5 @@ function deleteStaffImage(id) {
     },
   });
 }
+
+function editStaffName() {}
