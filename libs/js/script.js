@@ -36,7 +36,9 @@ $(document).ready(function () {
       processData: false,
       contentType: false,
       success: function (response) {
-        console.log(response);
+        clearSelectedStaffImage();
+
+        // Load the data again so it displays the new record.
         loadStaffImageList();
       },
       error: function (jqXHR, textStatus, errorThrown) {
