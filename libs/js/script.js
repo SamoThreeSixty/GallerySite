@@ -1,4 +1,8 @@
-import { staffImagesTemplate, staffGalleryImage } from "./template.js";
+import {
+  staffImagesTemplate,
+  staffGalleryImage,
+  staffImagesControls,
+} from "./template.js";
 
 // Here I will add listeners for the various forms making sure
 // the request is handled properly through AJAX JQuery
@@ -59,6 +63,14 @@ $(document).ready(function () {
     id = $(this).attr("value");
 
     moveStaffImage("MoveDown", id);
+  });
+
+  $(document).on("click", ".Update", function (e) {
+    // Get the Id of the record
+    const id = getStaffId(this);
+
+    // Replace the record with the controls
+    $(`#Controls_${id}`).html(staffImagesControls(id, true));
   });
 });
 
@@ -149,6 +161,18 @@ function deleteStaffImage(id) {
       console.error(errorThrown);
     },
   });
+}
+
+function getStaffId(element) {
+  // Functional Id records have the function_Id
+  // This will break it down and just return the Id
+  const id = parseInt(element.attributes.id.value.split("_")[1]);
+
+  if (typeof id == "number") {
+    return id;
+  } else {
+    throw Error("Value is not a number, it is a " + typeof id);
+  }
 }
 
 function editStaffName() {}
