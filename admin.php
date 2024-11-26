@@ -30,6 +30,7 @@
               <input class="form-control" id="StaffName" name="Staff_Name" type="text" required>
             </div>
             <button class="btn btn-default" type="submit">Upload</button>
+            <button class="btn btn-secondary" id="ClearUploadInputs">Clear</button>
           </form>
         </div>
       </div>

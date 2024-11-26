@@ -58,6 +58,12 @@ $(document).ready(function () {
     }
   });
 
+  $(document).on("click", "#ClearUploadInputs", function (e) {
+    e.preventDefault();
+
+    clearSelectedStaffImage();
+  });
+
   $(document).on("click", ".Delete", function (e) {
     e.preventDefault();
 
@@ -169,6 +175,19 @@ function moveStaffImage(action, Id) {
       console.error(errorThrown);
     },
   });
+}
+
+function clearSelectedStaffImage() {
+  // Reset the display to blank
+  $(`#SelectedImageFileName`).val("");
+  $(`#SelectedImageFileName`).text("");
+
+  // Remove the image selected
+  $("#ImageFilename").val("");
+
+  // Clear the name inout
+  $(`#StaffName`).val("");
+  $(`#StaffName`).text("");
 }
 
 function loadStaffImageList() {
