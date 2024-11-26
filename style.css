@@ -88,3 +88,9 @@ h1 {
 #StaffImagesList > li:last-child span a.MoveDown {
   display: none;
 }
+
+input[readonly] {
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
