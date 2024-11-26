@@ -85,6 +85,16 @@ $(document).ready(function () {
     $(`#${id}`).removeAttr("readonly");
   });
 
+  $(document).on("click", ".Confirm", function (e) {
+    // Get the Id of the record
+    const id = getStaffId(this);
+
+    // Get the new name
+    const newName = $(`#${id}`).val();
+
+    editStaffName(newName, id);
+  });
+
   $(document).on("click", ".Cancel", function (e) {
     // Get the Id of the record
     const id = getStaffId(this);
@@ -227,4 +237,33 @@ function removeEditMode() {
   const isEditing = $("#StaffImagesList").data("editMode", false);
 }
 
-function editStaffName() {}
+function editStaffName(newName, id) {
+  const formData = new FormData();
+
+  formData.append("newName", newName);
+  formData.append("id", id);
+
+  $.ajax({
+    url: "./libs/php/updateStaffImage.php",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      // Remove the edit mode flag
+      removeEditMode();
+
+      // Set the field to readonly
+      $(`#${id}`).attr("readonly", true);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error(errorThrown);
+
+      // Return the original data
+      removeEditMode();
+      const originalValue = $(`#${id}`).data("original");
+      $(`#${id}`).val(originalValue);
+      $(`#${id}`).text(originalValue);
+    },
+  });
+}
