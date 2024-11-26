@@ -72,6 +72,14 @@ $(document).ready(function () {
     // Replace the record with the controls
     $(`#Controls_${id}`).html(staffImagesControls(id, true));
   });
+
+  $(document).on("click", ".Cancel", function (e) {
+    // Get the Id of the record
+    const id = getStaffId(this);
+
+    // Replace the record with the controls
+    $(`#Controls_${id}`).html(staffImagesControls(id, false));
+  });
 });
 
 function moveStaffImage(action, Id) {
