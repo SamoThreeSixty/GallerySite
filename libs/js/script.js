@@ -52,7 +52,7 @@ $(document).ready(function () {
   $(document).on("click", ".MoveUp", function (e) {
     e.preventDefault();
 
-    id = $(this).attr("value");
+    const id = getStaffId(this);
 
     moveStaffImage("MoveUp", id);
   });
@@ -60,7 +60,7 @@ $(document).ready(function () {
   $(document).on("click", ".MoveDown", function (e) {
     e.preventDefault();
 
-    id = $(this).attr("value");
+    const id = getStaffId(this);
 
     moveStaffImage("MoveDown", id);
   });
