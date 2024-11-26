@@ -71,6 +71,12 @@ $(document).ready(function () {
 
     // Replace the record with the controls
     $(`#Controls_${id}`).html(staffImagesControls(id, true));
+
+    // Save the current value to be returned if cancelled
+    $(`#${id}`).data("original", $(`#${id}`).attr("value"));
+
+    // Change to edit on input
+    $(`#${id}`).removeAttr("readonly");
   });
 
   $(document).on("click", ".Cancel", function (e) {
@@ -79,6 +85,14 @@ $(document).ready(function () {
 
     // Replace the record with the controls
     $(`#Controls_${id}`).html(staffImagesControls(id, false));
+
+    // Return the original data
+    const originalValue = $(`#${id}`).data("original");
+    $(`#${id}`).val(originalValue);
+    $(`#${id}`).text(originalValue);
+
+    // Make it readonly again
+    $(`#${id}`).attr("readonly", true);
   });
 });
 
