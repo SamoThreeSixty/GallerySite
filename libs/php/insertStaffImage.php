@@ -6,6 +6,21 @@ include("downloadStaffImage.php");
 
 header('Content-Type: application/json; charset=UTF-8');
 
+// Sanitise inputs
+$staffName = htmlspecialchars($_POST['Staff_Name'], ENT_QUOTES, 'UTF-8');
+
+// Validate
+// Make sure the new name is set and below above 0 and 100 or below char.
+if (!$newName || !is_string($newName) || !($newNameLength > 0 && $newNameLength <= 100)) {
+    $output['status']['code'] = "400";
+    $output['status']['name'] = "invalid params";
+    $output['status']['description'] = "An invalid new name was provided";
+    $output['data'] = [];
+
+    echo json_encode($output);
+    exit;
+}
+
 // Below handles the uploading of the file
 $basePath = sanitizeAndUploadFile(
     $_FILES['Image_Filename'],
@@ -28,18 +43,18 @@ if ($basePath instanceof Exception) {
     exit;
 }
 
+// SQL query to work out the highest position and insert this image incrementally
 $highestPosition = $conn->prepare('SELECT COALESCE(MAX(Position), 0) AS Position FROM Staff');
-
 $highestPosition->execute();
-
 $highestPositionResult = $highestPosition->get_result();
 
 $row = $highestPositionResult->fetch_assoc();
-
 $nextPosition = $row['Position'] + 1;
 
-$date = date("Y-m-d h:m:s");
+// Get the date to timestamp in the DB
+$date = date("Y-m-d H:i:s");
 
+// SQL query to store the data
 $query = $conn->prepare('INSERT INTO 
                                             Staff (
                                                 Staff_Name, 
