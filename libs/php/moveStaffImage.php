@@ -51,11 +51,11 @@ $currentPosition = $currentRecord['Position'];
 // Prepare statements based on the action provided from request
 if ($action === "MoveUp") {
     $next = $conn->prepare(
-        "SELECT Id, Position FROM Staff WHERE Position < ? ORDER BY Position DESC LIMIT 1"
+        "SELECT Id, Position FROM Staff WHERE Position < ? AND Deleted_Flag = 'N' AND Live_Flag = 'Y' ORDER BY Position DESC LIMIT 1"
     );
 } else {
     $next = $conn->prepare(
-        "SELECT Id, Position FROM Staff WHERE Position > ? ORDER BY Position ASC LIMIT 1"
+        "SELECT Id, Position FROM Staff WHERE Position > ? AND Deleted_Flag = 'N' AND Live_Flag = 'Y' ORDER BY Position ASC LIMIT 1"
     );
 }
 
