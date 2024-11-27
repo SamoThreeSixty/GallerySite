@@ -3,12 +3,15 @@ $executionStartTime = microtime(true);
 
 include("config.php");
 include("downloadStaffImage.php");
+include("utils.php");
 
 header('Content-Type: application/json; charset=UTF-8');
 
 // Sanitise inputs
 $staffName = htmlspecialchars($_POST['Staff_Name'], ENT_QUOTES, 'UTF-8');
 $staffNameLength = strlen($staffName);
+
+$ipAddress = returnClientIp();
 
 // Validate
 // Make sure the new name is set and below above 0 and 100 or below char.
@@ -61,17 +64,20 @@ $query = $conn->prepare('INSERT INTO
                                                 Staff_Name, 
                                                 Image_Filename, 
                                                 Position, 
-                                                -- Live_Flag, 
-                                                Added_Date_Time
-                                                -- Added_From_IP, 
-                                                -- Deleted_Flag, 
-                                                -- Deleted_Date_Time, 
-                                                -- Deleted_From_IP
+                                                Added_Date_Time,
+                                                Added_From_IP 
                                                 ) 
                                             VALUES 
-                                                (?, ?, ?, ?);');
+                                                (?, ?, ?, ?, ?);');
 
-$query->bind_param('ssss', $_POST['Staff_Name'], $basePath, $nextPosition, $date);
+$query->bind_param(
+    'ssiss',
+    $staffName,
+    $basePath,
+    $nextPosition,
+    $date,
+    $ipAddress
+);
 
 $query->execute();
 

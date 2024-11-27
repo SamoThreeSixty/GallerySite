@@ -3,12 +3,14 @@
 $executionStartTime = microtime(true);
 
 include("config.php");
+include("utils.php");
 
 header('Content-Type: application/json; charset=UTF-8');
 
 // Sanitise inputs
 $id = filter_input(INPUT_POST, 'Id', FILTER_SANITIZE_NUMBER_INT);
 
+$ipAddress = returnClientIp();
 $date = date("Y-m-d H:i:s");
 $live_Flag = 'N';
 $deleted_Flag = 'Y';
@@ -26,9 +28,14 @@ if (!$id || !is_numeric($id) || $id <= 0) {
 }
 
 // SQL Query
-$query = $conn->prepare('UPDATE Staff SET Live_Flag = ?, Deleted_Flag = ?, Deleted_Date_Time = ? WHERE Id = ?');
+$query = $conn->prepare('UPDATE Staff 
+								SET Live_Flag = ?, 
+									Deleted_Flag = ?, 
+									Deleted_Date_Time = ?,
+									Deleted_From_IP = ?
+								WHERE Id = ?');
 
-$query->bind_param("sssi", $live_Flag, $deleted_Flag, $date, $id);
+$query->bind_param("ssssi", $live_Flag, $deleted_Flag, $date, $ipAddress, $id);
 
 $query->execute();
 
