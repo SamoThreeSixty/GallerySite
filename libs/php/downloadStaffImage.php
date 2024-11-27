@@ -72,7 +72,7 @@ function sanitizeAndUploadFile(
         }
 
         // Return the file name to save in the DB
-        return $uploadDir;
+        return $fileUid;
     } catch (Exception $e) {
         return $e;
     }
