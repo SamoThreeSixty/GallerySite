@@ -8,7 +8,7 @@ header('Content-Type: application/json; charset=UTF-8');
 
 // Sanitise inputs
 $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
-$newName = filter_input(INPUT_POST, 'newName', FILTER_SANITIZE_STRING);
+$newName = htmlspecialchars($_POST['newName'], ENT_QUOTES, 'UTF-8');
 $newNameLength = strlen($newName);
 
 // Validation
