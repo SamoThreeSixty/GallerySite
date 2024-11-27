@@ -11,7 +11,7 @@ $basePath = sanitizeAndUploadFile(
     $_FILES['Image_Filename'],
     ['jpg', 'png',],
     ['image/jpeg', 'image/png'],
-    uploadDir: 'media/staff/'
+    uploadDir: 'media/staff'
 );
 
 // If an error was found, then return the error message
