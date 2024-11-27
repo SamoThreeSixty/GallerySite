@@ -8,10 +8,11 @@ header('Content-Type: application/json; charset=UTF-8');
 
 // Sanitise inputs
 $staffName = htmlspecialchars($_POST['Staff_Name'], ENT_QUOTES, 'UTF-8');
+$staffNameLength = strlen($staffName);
 
 // Validate
 // Make sure the new name is set and below above 0 and 100 or below char.
-if (!$newName || !is_string($newName) || !($newNameLength > 0 && $newNameLength <= 100)) {
+if (!$staffName || !is_string($staffName) || !($staffNameLength > 0 && $staffNameLength <= 100)) {
     $output['status']['code'] = "400";
     $output['status']['name'] = "invalid params";
     $output['status']['description'] = "An invalid new name was provided";
