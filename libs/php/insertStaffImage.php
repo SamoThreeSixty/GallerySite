@@ -2,24 +2,30 @@
 $executionStartTime = microtime(true);
 
 include("config.php");
+include("downloadStaffImage.php");
 
 header('Content-Type: application/json; charset=UTF-8');
 
-// Save file to the images
-$fileTmpPath = $_FILES['Image_Filename']['tmp_name'];
-$fileName = $_FILES['Image_Filename']['name'];
+// Below handles the uploading of the file
+$basePath = sanitizeAndUploadFile(
+    $_FILES['Image_Filename'],
+    ['jpg', 'png',],
+    ['image/jpeg', 'image/png'],
+    uploadDir: 'media/staff/'
+);
 
-// Set the target directory for uploaded files
-$uploadDir = 'media/staff/';
+// If an error was found, then return the error message
+if ($basePath instanceof Exception) {
+    $output['status']['code'] = "400";
+    $output['status']['name'] = "Download error";
+    $output['status']['description'] = "Error: " . $e->getMessage();
+    $output['data'] = [];
 
-// Generate a unique file name to avoid overwriting
-$newFileName = uniqid() . '-' . basename($fileName);
-$uploadPath = '../../' . $uploadDir . $newFileName;
-$basePath = $uploadDir . $newFileName;
+    mysqli_close($conn);
 
-if (move_uploaded_file($fileTmpPath, $uploadPath)) {
-    // Store the file URL in the database
-    $fileUrl = $uploadPath;  // Save the relative path to the database
+    echo json_encode($output);
+
+    exit;
 }
 
 $highestPosition = $conn->prepare('SELECT COALESCE(MAX(Position), 0) AS Position FROM Staff');
