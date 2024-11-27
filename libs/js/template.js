@@ -35,9 +35,25 @@ export function staffImagesControls(recordId, edit = false) {
 }
 
 export function staffGalleryImage(record) {
+  // Detect the size of the screen viewing the website
+  // Downside that this will not react to size changes whilst using the website.
+  const screenWidth = window.innerWidth;
+  let device;
+
+  // Standard device sizes from this
+  // https://stackoverflow.com/questions/31409882/how-to-most-efficiently-check-for-certain-breakpoints-upon-browser-re-size
+
+  if (screenWidth <= 400) {
+    device = "phone";
+  } else if (screenWidth <= 798) {
+    device = "tablet";
+  } else {
+    device = "desktop";
+  }
+
   return `
     <div class="col-md-3 col-sm-4 col-xs-6">
-      <div class="profile"> <img alt="Profile image of ${record.Staff_Name}" class="img-responsive" src="${record.Image_FileName}">
+      <div class="profile"> <img alt="Profile image of ${record.Staff_Name}" class="img-responsive" src="media/staff/${device}_${record.Image_FileName}">
         <h5>${record.Staff_Name}</h5>
       </div>
     </div>          
