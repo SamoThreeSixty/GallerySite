@@ -38,13 +38,13 @@ TABLE `Staff` (
 
 ## File structure
 #### admin.php
-- Option to upload images and save the details to a MySQL database (connection details below).
-- Any uploaded content (file and text) should be validated and sanitised.
-- Images should be resized to the correct width.
-- Ideally multiple images should be created, one for mobile, tablet and desktop.
-- Ability to move the image up and down in the list.
-- Ability to amend and remove staff details.
+- [x] Option to upload images and save the details to a MySQL database. 
+- [x] Any uploaded content (file and text) should be validated and sanitised.
+- [x] Images should be resized to the correct width.
+- [x] Ideally multiple images should be created, one for mobile, tablet and desktop.
+- [x] Ability to move the image up and down in the list.
+- [x] Ability to amend and remove staff details.
 
 #### gallery.php
-- display all the images stored in the MySQL database in the correct order.
-- Ideally the correct image width (mobile, tablet, desktop) should be served to the correct device.
+- [x] Display all the images stored in the MySQL database in the correct order.
+- [x] Ideally the correct image width (mobile, tablet, desktop) should be served to the correct device.
