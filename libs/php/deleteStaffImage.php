@@ -1,44 +1,62 @@
 <?php
 
-    $executionStartTime = microtime(true);
+$executionStartTime = microtime(true);
 
-    include("config.php");
+include("config.php");
 
-    header('Content-Type: application/json; charset=UTF-8');
+header('Content-Type: application/json; charset=UTF-8');
 
-    $date = date("Y-m-d h:m:s");
-    $live_Flag = 'N';
-    $deleted_Flag = 'Y';
+// Sanitise inputs
+$id = filter_input(INPUT_POST, 'Isd', FILTER_SANITIZE_NUMBER_INT);
 
-	$query = $conn->prepare('UPDATE Staff SET Live_Flag = ?, Deleted_Flag = ?, Deleted_Date_Time = ? WHERE Id = ?');
+$date = date("Y-m-d H:i:s");
+$live_Flag = 'N';
+$deleted_Flag = 'Y';
 
-	$query->bind_param("sssi", $live_Flag, $deleted_Flag, $date, $_POST['Id'] );
+// Validation
+// Check that the Id is provided and it is above 0
+if (!$id || !is_numeric($id) || $id <= 0) {
+	$output['status']['code'] = "400";
+	$output['status']['name'] = "invalid params";
+	$output['status']['description'] = "An invalid Id was provided";
+	$output['data'] = [];
 
-	$query->execute();
+	echo json_encode($output);
+	exit;
+}
 
-    if ($query === false) {
+// SQL Query
+$query = $conn->prepare('UPDATE Staff SET Live_Flag = ?, Deleted_Flag = ?, Deleted_Date_Time = ? WHERE Id = ?');
 
-		$output['status']['code'] = "400";
-		$output['status']['name'] = "executed";
-		$output['status']['description'] = "query failed";	
-		$output['data'] = [];
+$query->bind_param("sssi", $live_Flag, $deleted_Flag, $date, $id);
 
-		mysqli_close($conn);
+$query->execute();
 
-		echo json_encode($output); 
+// SQL error checking
+if ($query === false) {
 
-		exit;
+	$output['status']['code'] = "400";
+	$output['status']['name'] = "executed";
+	$output['status']['description'] = "query failed";
+	$output['data'] = [];
 
-	}
+	mysqli_close($conn);
 
-    $output['status']['code'] = "200";
-	$output['status']['name'] = "ok"; 
-	$output['status']['description'] = "successfully deleted record " . $_POST['Id'];
-	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] =  null;
-	
-    mysqli_close($conn);
+	echo json_encode($output);
 
-	echo json_encode( $output); 
+	exit;
+
+}
+
+// No errors, return success
+$output['status']['code'] = "200";
+$output['status']['name'] = "ok";
+$output['status']['description'] = "successfully deleted record " . $id;
+$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+$output['data'] = null;
+
+mysqli_close($conn);
+
+echo json_encode($output);
 
 ?>
