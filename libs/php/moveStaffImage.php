@@ -14,7 +14,7 @@ header('Content-Type: application/json; charset=UTF-8');
 
 // Sanitise inputs
 $id = filter_input(INPUT_POST, 'Id', FILTER_SANITIZE_NUMBER_INT);
-$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
+$action = htmlspecialchars($_POST['action'], ENT_QUOTES, 'UTF-8');
 
 // Validation
 if (!$id || !is_numeric($id) || $id <= 0) {
