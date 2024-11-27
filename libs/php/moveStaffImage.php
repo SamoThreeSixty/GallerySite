@@ -12,16 +12,35 @@ include("config.php");
 
 header('Content-Type: application/json; charset=UTF-8');
 
-// Validate and sanitize inputs
-$id = isset($_POST['Id']) ? (int) $_POST['Id'] : null;
-$action = isset($_POST['action']) ? $_POST['action'] : null;
+// Sanitise inputs
+$id = filter_input(INPUT_POST, 'Id', FILTER_SANITIZE_NUMBER_INT);
+$action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
 
-// Error checking
-if (!$id || !in_array($action, ["MoveUp", "MoveDown"])) {
-    echo json_encode(['error' => 'Invalid input']);
+// Validation
+if (!$id || !is_numeric($id) || $id <= 0) {
+
+    $output['status']['code'] = "400";
+    $output['status']['name'] = "invalid params";
+    $output['status']['description'] = "An invalid id was provided";
+    $output['data'] = [];
+
+    echo json_encode($output);
     exit;
 }
 
+if (!$action || !is_string($action) || !in_array($action, ["MoveUp", "MoveDown"])) {
+
+    $output['status']['code'] = "400";
+    $output['status']['name'] = "invalid params";
+    $output['status']['description'] = "An invalid action was provided";
+    $output['data'] = [];
+
+    echo json_encode($output);
+    exit;
+}
+
+// SQL Query
+// Get the  current record that the action has been made on
 $current = $conn->prepare("SELECT Position FROM Staff WHERE Id = ?");
 $current->bind_param("i", $id);
 $current->execute();
@@ -29,6 +48,7 @@ $current->execute();
 $currentRecord = $current->get_result()->fetch_assoc();
 $currentPosition = $currentRecord['Position'];
 
+// Prepare statements based on the action provided from request
 if ($action === "MoveUp") {
     $next = $conn->prepare(
         "SELECT Id, Position FROM Staff WHERE Position < ? ORDER BY Position DESC LIMIT 1"
@@ -39,6 +59,8 @@ if ($action === "MoveUp") {
     );
 }
 
+// SQL Query
+// Get the next record that the current will be switched with
 $next->bind_param("i", $currentPosition);
 $next->execute();
 
@@ -46,10 +68,12 @@ $nextRecord = $next->get_result()->fetch_assoc();
 $nextId = $nextRecord['Id'];
 $nextPosition = $nextRecord['Position'];
 
-// Swap positions
+// Begin a transaction because multiple (2) queries will be executed at the same time.
 $conn->begin_transaction();
 
+// Use error catch statement to catch any issues
 try {
+    // Swap the values of the position between the records
     $updateCurrent = $conn->prepare("UPDATE Staff SET Position = ? WHERE Id = ?");
     $updateCurrent->bind_param("ii", $nextPosition, $id);
     $updateCurrent->execute();
@@ -59,13 +83,26 @@ try {
     $updateNext->execute();
 
     $conn->commit();
-
-    echo json_encode(['success' => true, 'message' => 'Positions swapped successfully']);
 } catch (Exception $e) {
+    // In case of failure, the change will be rolled back and message sent to client
     $conn->rollback();
-    echo json_encode(['error' => 'Transaction failed: ' . $e->getMessage()]);
+
+    $output['status']['code'] = "400";
+    $output['status']['name'] = "SQL transaction failed";
+    $output['status']['description'] = $e->getMessage();
+    $output['data'] = [];
+
+    echo json_encode($output);
+    exit;
 }
 
-$executionEndTime = microtime(true);
+// No errors, return success
+$output['status']['code'] = "200";
+$output['status']['name'] = "ok";
+$output['status']['description'] = "success";
+$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+$output['data'] = null;
+
+echo json_encode($output);
 
 ?>
