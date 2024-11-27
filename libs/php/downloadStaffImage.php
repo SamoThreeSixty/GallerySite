@@ -64,7 +64,7 @@ function sanitizeAndUploadFile(
         }
 
         // Return the file name to save in the DB
-        return $fileUid;
+        return $fileUidName;
     } catch (Exception $e) {
         return $e;
     }
