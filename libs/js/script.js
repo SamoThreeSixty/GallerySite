@@ -115,6 +115,8 @@ $(document).ready(function () {
     // If it is, the rest of the function will be executed.
     if (isEditMode()) {
       return;
+    } else {
+      setEditMode();
     }
 
     // Get the Id of the record
@@ -274,25 +276,19 @@ function getStaffId(element) {
 
 function isEditMode() {
   // Function to be used to prevent editing when a record is being edited.
-  // It will also have the function to be used to set the edit mode when you start editing.
+  const isEditing = $("#StaffImagesList").data("editMode") ? true : false;
 
-  const isEditing = $("#StaffImagesList").data("editMode");
+  return isEditing;
+}
 
-  switch (isEditing) {
-    case true:
-      return true;
-    default:
-      // The default, or if not set as true / false, will be to set the edit flag.
-      // This will be because the check was done prior to editing when nothing was
-      // being edited prior.
-
-      $("#StaffImagesList").data("editMode", true);
-      return false;
-  }
+function setEditMode() {
+  // Function to be used to set edit mode when you start editing.
+  $("#StaffImagesList").data("editMode", true);
 }
 
 function removeEditMode() {
-  const isEditing = $("#StaffImagesList").data("editMode", false);
+  // Function to be used to remove edit mode when you start editing.
+  $("#StaffImagesList").data("editMode", false);
 }
 
 function editStaffName(newName, id) {
