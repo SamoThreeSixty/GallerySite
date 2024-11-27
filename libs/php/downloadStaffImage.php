@@ -48,15 +48,7 @@ function sanitizeAndUploadFile(
         }
 
         // Check that there is the media directory available. If not create it.
-        $mediaDir = '../../media/staff';
-        if (!is_dir($mediaDir)) {
-            mkdir($mediaDir, 0755, true);
-        }
-
-        // Create a unique file name
-        $uploadPath = '../../' . $uploadDir . '/' . $fileUid . '/';
-
-        // Check that the directory to save is there, if not make it
+        $uploadPath = '../../' . $uploadDir;
         if (!is_dir($uploadPath)) {
             mkdir($uploadPath, 0755, true);
         }
