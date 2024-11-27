@@ -140,6 +140,9 @@ $(document).ready(function () {
     const newName = $(`#${id}`).val();
 
     editStaffName(newName, id);
+
+    // Replace the record with the controls
+    $(`#Controls_${id}`).html(staffImagesControls(id, false));
   });
 
   $(document).on("click", ".Cancel", function (e) {
