@@ -7,7 +7,7 @@ include("config.php");
 header('Content-Type: application/json; charset=UTF-8');
 
 // Sanitise inputs
-$id = filter_input(INPUT_POST, 'Isd', FILTER_SANITIZE_NUMBER_INT);
+$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 
 $date = date("Y-m-d H:i:s");
 $live_Flag = 'N';
