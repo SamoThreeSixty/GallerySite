@@ -9,6 +9,7 @@
 $executionStartTime = microtime(true);
 
 include("config.php");
+include "utils.php";
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -18,24 +19,18 @@ $action = htmlspecialchars($_POST['action'], ENT_QUOTES, 'UTF-8');
 
 // Validation
 if (!$id || !is_numeric($id) || $id <= 0) {
+    mysqli_close($conn);
 
-    $output['status']['code'] = "400";
-    $output['status']['name'] = "invalid params";
-    $output['status']['description'] = "An invalid id was provided";
-    $output['data'] = [];
+    sendErrorResponse(400, "An invalid id was provided");
 
-    echo json_encode($output);
     exit;
 }
 
 if (!$action || !is_string($action) || !in_array($action, ["MoveUp", "MoveDown"])) {
+    mysqli_close($conn);
 
-    $output['status']['code'] = "400";
-    $output['status']['name'] = "invalid params";
-    $output['status']['description'] = "An invalid action was provided";
-    $output['data'] = [];
+    sendErrorResponse(400, "An invalid action was provided");
 
-    echo json_encode($output);
     exit;
 }
 
@@ -87,21 +82,19 @@ try {
     // In case of failure, the change will be rolled back and message sent to client
     $conn->rollback();
 
-    $output['status']['code'] = "400";
-    $output['status']['name'] = "SQL transaction failed";
-    $output['status']['description'] = $e->getMessage();
-    $output['data'] = [];
+    mysqli_close($conn);
 
-    echo json_encode($output);
+    sendErrorResponse(400, "SQL transaction failed: " . $e->getMessage());
+
     exit;
 }
 
 // No errors, return success
-$output['status']['code'] = "200";
-$output['status']['name'] = "ok";
-$output['status']['description'] = "success";
+http_response_code(200);
+$output['status']['name'] = "Success";
+$output['status']['description'] = "Swapped positions of record id " . $id . " with " . $nextId;
 $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-$output['data'] = null;
+$output['data'] = [];
 
 echo json_encode($output);
 

@@ -2,8 +2,8 @@
 
 $executionStartTime = microtime(true);
 
-include("config.php");
-include("utils.php");
+include "config.php";
+include "utils.php";
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -18,12 +18,10 @@ $deleted_Flag = 'Y';
 // Validation
 // Check that the Id is provided and it is above 0
 if (!$id || !is_numeric($id) || $id <= 0) {
-	$output['status']['code'] = "400";
-	$output['status']['name'] = "invalid params";
-	$output['status']['description'] = "An invalid Id was provided";
-	$output['data'] = [];
+	mysqli_close($conn);
 
-	echo json_encode($output);
+	sendErrorResponse(400, "Invalid params");
+
 	exit;
 }
 
@@ -41,22 +39,15 @@ $query->execute();
 
 // SQL error checking
 if ($query === false) {
-
-	$output['status']['code'] = "400";
-	$output['status']['name'] = "executed";
-	$output['status']['description'] = "query failed";
-	$output['data'] = [];
-
 	mysqli_close($conn);
 
-	echo json_encode($output);
+	sendErrorResponse(500, "Query failed");
 
 	exit;
-
 }
 
 // No errors, return success
-$output['status']['code'] = "200";
+http_response_code(200);
 $output['status']['name'] = "ok";
 $output['status']['description'] = "successfully deleted record " . $id;
 $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
