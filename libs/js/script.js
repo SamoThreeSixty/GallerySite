@@ -40,8 +40,11 @@ $(document).ready(function () {
 
         // Load the data again so it displays the new record.
         loadStaffImageList();
+
+        informationToast("Record successfully inserted");
       },
       error: function (jqXHR, textStatus, errorThrown) {
+        errorToast("Error inserting record");
         console.error(errorThrown);
       },
     });
@@ -163,6 +166,34 @@ $(document).ready(function () {
   });
 });
 
+function informationToast(message) {
+  // To be used to confirm when an action has completed successfully to the client
+  Toastify({
+    text: message,
+    duration: 1500, //1000ms = 1s
+    gravity: "top",
+    position: "right",
+    stopOnFocus: true,
+    style: {
+      background: "green",
+    },
+  }).showToast();
+}
+
+function errorToast(message) {
+  // To be used to noticy the client if an error occurs.
+  Toastify({
+    text: message,
+    duration: 1500, //1000ms = 1s
+    gravity: "top",
+    position: "right",
+    stopOnFocus: true,
+    style: {
+      background: "red",
+    },
+  }).showToast();
+}
+
 function moveStaffImage(action, Id) {
   const formData = new FormData();
 
@@ -179,6 +210,7 @@ function moveStaffImage(action, Id) {
       loadStaffImageList();
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      errorToast("Error moving record");
       console.error(errorThrown);
     },
   });
@@ -211,6 +243,7 @@ function loadStaffImageList() {
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      errorToast("Error loading records");
       console.error(errorThrown);
     },
   });
@@ -230,20 +263,26 @@ function loadGalleryImages() {
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      errorToast("Error loading records");
       console.error(errorThrown);
     },
   });
 }
 
 function deleteStaffImage(id) {
-  // Check that it is an int
-  if (typeof id != "number") {
-    throw Error("Id should be a number");
-  }
+  // Validate the input
+  try {
+    // Check that it is an int
+    if (typeof id != "number") {
+      throw Error("Id should be a number");
+    }
 
-  // Check that it is above 0
-  if (id <= 0) {
-    throw Error("This is not a valid id");
+    // Check that it is above 0
+    if (id <= 0) {
+      throw Error("This is not a valid id");
+    }
+  } catch (e) {
+    errorToast(e.message());
   }
 
   // POST
@@ -258,8 +297,11 @@ function deleteStaffImage(id) {
       // Refresh the list when the record has been deleted
       // to show that it is removed
       loadStaffImageList();
+
+      informationToast("Successfully deleted record");
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      errorToast("Error deleting record");
       console.error(errorThrown);
     },
   });
@@ -312,6 +354,8 @@ function editStaffName(newName, id) {
 
       // Set the field to readonly
       $(`#${id}`).attr("readonly", true);
+
+      informationToast("Record edited successfully");
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.error(errorThrown);
@@ -321,6 +365,8 @@ function editStaffName(newName, id) {
       const originalValue = $(`#${id}`).data("original");
       $(`#${id}`).val(originalValue);
       $(`#${id}`).text(originalValue);
+
+      errorToast("Error editing record");
     },
   });
 }
