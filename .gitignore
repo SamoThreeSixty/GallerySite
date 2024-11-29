@@ -1,3 +1,4 @@
 /media/staff/
 /vendor
+/node_modules
 .env
