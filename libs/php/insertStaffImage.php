@@ -16,12 +16,10 @@ $ipAddress = returnClientIp();
 // Validate
 // Make sure the new name is set and below above 0 and 100 or below char.
 if (!$staffName || !is_string($staffName) || !($staffNameLength > 0 && $staffNameLength <= 100)) {
-    $output['status']['code'] = "400";
-    $output['status']['name'] = "invalid params";
-    $output['status']['description'] = "An invalid new name was provided";
-    $output['data'] = [];
+    mysqli_close($conn);
 
-    echo json_encode($output);
+    sendErrorResponse(400, "An invalid new name was provided");
+
     exit;
 }
 
@@ -35,14 +33,9 @@ $basePath = sanitizeAndUploadFile(
 
 // If an error was found, then return the error message
 if ($basePath instanceof Exception) {
-    $output['status']['code'] = "400";
-    $output['status']['name'] = "Download error";
-    $output['status']['description'] = "Error: " . $e->getMessage();
-    $output['data'] = [];
-
     mysqli_close($conn);
 
-    echo json_encode($output);
+    sendErrorResponse(500, "Error: " . $e->getMessage());
 
     exit;
 }
@@ -82,21 +75,14 @@ $query->bind_param(
 $query->execute();
 
 if ($query === false) {
-
-    $output['status']['code'] = "400";
-    $output['status']['name'] = "executed";
-    $output['status']['description'] = "query failed";
-    $output['data'] = [];
-
     mysqli_close($conn);
 
-    echo json_encode($output);
+    sendErrorResponse(500, "Query failed");
 
     exit;
-
 }
 
-$output['status']['code'] = "200";
+http_response_code(200);
 $output['status']['name'] = "ok";
 $output['status']['description'] = "success";
 $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
